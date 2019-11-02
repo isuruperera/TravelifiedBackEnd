@@ -1,13 +1,11 @@
 package com.cyntex.TourismApp.Controller;
 
 
-import com.cyntex.TourismApp.Beans.BaseResponse;
-import com.cyntex.TourismApp.Beans.LoginRequestBean;
-import com.cyntex.TourismApp.Beans.RatingsProfileRequestBean;
-import com.cyntex.TourismApp.Beans.RegistrationRequestBean;
+import com.cyntex.TourismApp.Beans.*;
 import com.cyntex.TourismApp.Logic.FoodRequestHandler;
-import com.cyntex.TourismApp.Logic.RatingProfileRequestHandler;
 import com.cyntex.TourismApp.Logic.TestRequestHandler;
+import com.cyntex.TourismApp.Logic.TransportDataRequestHandler;
+import com.cyntex.TourismApp.Logic.UserRequestHandler;
 import com.cyntex.TourismApp.Services.AuthService;
 import com.cyntex.TourismApp.Util.FSManager;
 import com.cyntex.TourismApp.Util.JSONHandler;
@@ -28,10 +26,13 @@ public class BackEndRestController {
     private FoodRequestHandler foodRequestHandler;
 
     @Autowired
-    private RatingProfileRequestHandler ratingProfileRequestHandler;
+    private UserRequestHandler userRequestHandler;
 
     @Autowired
     private TestRequestHandler testRequestHandler;
+
+    @Autowired
+    private TransportDataRequestHandler transportDataRequestHandler;
 
 
     @CrossOrigin()
@@ -65,6 +66,81 @@ public class BackEndRestController {
     }
 
     @CrossOrigin()
+    @RequestMapping(value = "/summary", method = RequestMethod.POST)
+    public String attaractionDataSummary(@RequestBody String data) throws Exception {
+        try {
+            DiscoverRequestBean discoverRequestBean = JSONHandler.parseFromJSON(data, DiscoverRequestBean.class);
+            BaseResponse response = transportDataRequestHandler.handle(discoverRequestBean);
+            return JSONHandler.parseToJSON(response);
+        } catch (Exception e) {
+            BaseResponse response = new BaseResponse();
+            response.setStatus("FAILED: Invalid Request!");
+            e.printStackTrace();
+            return JSONHandler.parseToJSON(response);
+        }
+    }
+
+    @CrossOrigin()
+    @RequestMapping(value = "/transport", method = RequestMethod.POST)
+    public String transportData(@RequestBody String data) throws Exception {
+        try {
+            TransportDataRequestBean transportDataRequestBean = JSONHandler.parseFromJSON(data, TransportDataRequestBean.class);
+            BaseResponse response = transportDataRequestHandler.handle(transportDataRequestBean);
+            return JSONHandler.parseToJSON(response);
+        } catch (Exception e) {
+            BaseResponse response = new BaseResponse();
+            response.setStatus("FAILED: Invalid Request!");
+            e.printStackTrace();
+            return JSONHandler.parseToJSON(response);
+        }
+    }
+
+    @CrossOrigin()
+    @RequestMapping(value = "/calculateFare", method = RequestMethod.POST)
+    public String transportFareCalculate(@RequestBody String data) throws Exception {
+        try {
+            TransportFeeCalculateRequestBean transportDataRequestBean = JSONHandler.parseFromJSON(data, TransportFeeCalculateRequestBean.class);
+            BaseResponse response = transportDataRequestHandler.handle(transportDataRequestBean);
+            return JSONHandler.parseToJSON(response);
+        } catch (Exception e) {
+            BaseResponse response = new BaseResponse();
+            response.setStatus("FAILED: Invalid Request!");
+            e.printStackTrace();
+            return JSONHandler.parseToJSON(response);
+        }
+    }
+
+    @CrossOrigin()
+    @RequestMapping(value = "/busfare", method = RequestMethod.POST)
+    public String busFare(@RequestBody String data) throws Exception {
+        try {
+            BusInformationRequestBean busInformationRequestBean = JSONHandler.parseFromJSON(data, BusInformationRequestBean.class);
+            BaseResponse response = transportDataRequestHandler.handle(busInformationRequestBean);
+            return JSONHandler.parseToJSON(response);
+        } catch (Exception e) {
+            BaseResponse response = new BaseResponse();
+            response.setStatus("FAILED: Invalid Request!");
+            e.printStackTrace();
+            return JSONHandler.parseToJSON(response);
+        }
+    }
+
+    @CrossOrigin()
+    @RequestMapping(value = "/location", method = RequestMethod.POST)
+    public String location(@RequestBody String data) throws Exception {
+        try {
+            LocationCoordinateRequestBean locationCoordinateRequestBean = JSONHandler.parseFromJSON(data, LocationCoordinateRequestBean.class);
+            BaseResponse response = transportDataRequestHandler.handle(locationCoordinateRequestBean);
+            return JSONHandler.parseToJSON(response);
+        } catch (Exception e) {
+            BaseResponse response = new BaseResponse();
+            response.setStatus("FAILED: Invalid Request!");
+            e.printStackTrace();
+            return JSONHandler.parseToJSON(response);
+        }
+    }
+
+    @CrossOrigin()
     @RequestMapping(value = "/image", method = RequestMethod.GET)
     public byte[] getImage(@RequestParam("id") String imageID) throws Exception {
         try {
@@ -74,29 +150,13 @@ public class BackEndRestController {
         }
     }
 
-//    @CrossOrigin()
-//    @RequestMapping(value="/shops/list",method= RequestMethod.POST)
-//    public String requestFoodShopData(@RequestBody String data) throws Exception {
-//        ShopDetailsRequestBean shopDetailsRequestBean = JSONHandler.parseFromJSON(data, ShopDetailsRequestBean.class);
-//        BaseResponse response = foodRequestHandler.handle(shopDetailsRequestBean);
-//        return JSONHandler.parseToJSON(response);
-//    }
-
     @CrossOrigin()
-    @RequestMapping(value="/user/rating_profile",method= RequestMethod.POST)
-    public String requestUserRatingProfile(@RequestBody String data) throws Exception {
-        RatingsProfileRequestBean shopDetailsRequestBean = JSONHandler.parseFromJSON(data, RatingsProfileRequestBean.class);
-        BaseResponse response = ratingProfileRequestHandler.handle(shopDetailsRequestBean);
+    @RequestMapping(value = "/user/profile", method = RequestMethod.POST)
+    public String requestUserProfile(@RequestBody String data) throws Exception {
+        ProfileRequestBean shopDetailsRequestBean = JSONHandler.parseFromJSON(data, ProfileRequestBean.class);
+        BaseResponse response = userRequestHandler.handle(shopDetailsRequestBean);
         return JSONHandler.parseToJSON(response);
     }
-
-//    @CrossOrigin()
-//    @RequestMapping(value="/test/save_text",method= RequestMethod.POST)
-//    public String saveTextRequest(@RequestBody String data) throws Exception {
-//        TestBean testBean = JSONHandler.parseFromJSON(data, TestBean.class);
-//        testRequestHandler.handle(testBean);
-//        return "{SUCCESS}";
-//    }
 
     @CrossOrigin()
     @RequestMapping(value="/auth/user",method= RequestMethod.GET)

@@ -2,7 +2,10 @@ package com.cyntex.TourismApp.Beans;
 
 import java.util.List;
 
-public class RatingsProfileResponseBean extends BaseResponse{
+public class ProfileResponseBean extends BaseResponse {
+
+    private UserBean user;
+
     private List<UserRating> userRatings;
 
     public List<UserRating> getUserRatings() {
@@ -11,5 +14,13 @@ public class RatingsProfileResponseBean extends BaseResponse{
 
     public void setUserRatings(List<UserRating> userRatings) {
         this.userRatings = userRatings;
+    }
+
+    public UserBean getUser() {
+        return user;
+    }
+
+    public void setUser(UserBean user) {
+        this.user = user;
     }
 }

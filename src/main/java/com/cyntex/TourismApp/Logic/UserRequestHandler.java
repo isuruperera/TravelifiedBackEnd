@@ -1,7 +1,7 @@
 package com.cyntex.TourismApp.Logic;
 
 import com.cyntex.TourismApp.Beans.*;
-import com.cyntex.TourismApp.Persistance.UserRatingsProfileDAO;
+import com.cyntex.TourismApp.Persistance.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,16 +11,16 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class RatingProfileRequestHandler {
+public class UserRequestHandler {
 
     @Autowired
-    private UserRatingsProfileDAO userRatingsProfileDAO;
+    private UserDAO userDAO;
 
-    public BaseResponse handle(RatingsProfileRequestBean ratingsProfileRequestBean) {
-        RatingsProfileResponseBean responseBean = new RatingsProfileResponseBean();
+    public BaseResponse handle(ProfileRequestBean profileRequestBean) {
+        ProfileResponseBean responseBean = new ProfileResponseBean();
         try {
             List<RatingsProfileQueryResponseBean> queryResponse =
-                    userRatingsProfileDAO.getUserRatingsProfile(ratingsProfileRequestBean.getUsername());
+                    userDAO.getUserRatingsProfile(profileRequestBean.getUsername());
             Map<String, List<Integer>> userRatingsTotals = new HashMap<>();
             for (RatingsProfileQueryResponseBean queryResponseBean : queryResponse) {
                 List<Integer> ratingValue = userRatingsTotals.get(queryResponseBean.getCategory());
@@ -41,6 +41,8 @@ public class RatingProfileRequestHandler {
                         Math.round((((double) totalRating / userRatingsTotals.get(category).size())) * 100.0) / 100.0;
                 responseBean.getUserRatings().add(new UserRating(category, averageRating));
             }
+            List<UserBean> users = userDAO.getUserProfile(profileRequestBean.getUsername());
+            responseBean.setUser(users.get(0));
             responseBean.setStatus("SUCCESS");
         } catch (Exception e) {
             responseBean.setStatus("FAIL");
