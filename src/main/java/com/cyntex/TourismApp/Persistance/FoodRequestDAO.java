@@ -20,7 +20,7 @@ public class FoodRequestDAO {
             "ft.end > ? and " +
             "ft.start < ? ";
 
-
+ 
     @Autowired
     private DataSourceManager dataSourceManager;
 

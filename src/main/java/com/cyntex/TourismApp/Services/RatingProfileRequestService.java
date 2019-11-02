@@ -4,7 +4,9 @@ import com.cyntex.TourismApp.Beans.BaseResponse;
 import com.cyntex.TourismApp.Beans.ProfileRequestBean;
 import com.cyntex.TourismApp.Logic.UserRequestHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RatingProfileRequestService {
 
     @Autowired

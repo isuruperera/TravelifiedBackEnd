@@ -30,7 +30,7 @@ public class FoodRequestHandler {
             Date date = new Date();
             Date today = new Date(date.getYear(),date.getMonth(),date.getDate());
             requestBean.setTime((now - today.getTime())/1000);
-            // retrieve shop details
+            
             try {
                 List<ShopDetailsQueryResultBean> resultBeans
                         = foodRequestDao.getFoodItemsForTime(requestBean.getTime());

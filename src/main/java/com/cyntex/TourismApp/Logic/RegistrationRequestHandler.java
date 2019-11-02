@@ -19,7 +19,7 @@ public class RegistrationRequestHandler {
 
     public BaseResponse handle(RegistrationRequestBean requestBean){
         RegistrationResponseBean response = new RegistrationResponseBean();
-        try{
+        try{ 
             String imageID = UUID.randomUUID().toString();
             String pwdSalt = UUID.randomUUID().toString().substring(0, 8);
             String locationID = UUID.randomUUID().toString();
@@ -30,12 +30,14 @@ public class RegistrationRequestHandler {
                     requestBean.getLastName(),
                     requestBean.getGender(),
                     requestBean.getCountry(),
+
                     requestBean.getPhone(),
                     imageID,
                     locationID,
                     pwdSalt,
                     PasswordEncrypter.getsha256Securepassword(requestBean.getPassword(), pwdSalt.getBytes())
             );
+
             response.setStatus("SUCCESS");
             String id = UUID.randomUUID().toString();
             response.setId(id);
