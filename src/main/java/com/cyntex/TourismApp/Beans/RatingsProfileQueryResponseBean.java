@@ -3,9 +3,9 @@ package com.cyntex.TourismApp.Beans;
 public class RatingsProfileQueryResponseBean {
 
     private final String category;
-    private final int rating;
+    private final double rating;
 
-    public RatingsProfileQueryResponseBean(String category, int rating) {
+    public RatingsProfileQueryResponseBean(String category, double rating) {
         this.category = category;
         this.rating = rating;
     }
@@ -14,7 +14,7 @@ public class RatingsProfileQueryResponseBean {
         return category;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 }
