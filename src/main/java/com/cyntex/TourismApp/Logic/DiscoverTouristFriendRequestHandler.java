@@ -1,32 +1,19 @@
 package com.cyntex.TourismApp.Logic;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.cyntex.TourismApp.Beans.*;
+import com.cyntex.TourismApp.Exception.BadRequestException;
+import com.cyntex.TourismApp.Persistance.FriendListDAO;
+import com.cyntex.TourismApp.Persistance.UserDAO;
+import com.cyntex.TourismApp.Persistance.UserRatingsProfileDAO;
+import com.cyntex.TourismApp.Util.UserRatingCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import com.cyntex.TourismApp.Beans.BaseResponse;
-import com.cyntex.TourismApp.Beans.DiscoverTouristFriendRatingDetailQueryResponseBean;
-import com.cyntex.TourismApp.Beans.DiscoverTouristFriendRequestBean;
-import com.cyntex.TourismApp.Beans.DiscoverTouristFriendResponseBean;
-import com.cyntex.TourismApp.Beans.DiscoverTouristFriendUserProfileQueryResponseBean;
-import com.cyntex.TourismApp.Beans.RatingProfileFetchQueryBasedOnCategoryBean;
-import com.cyntex.TourismApp.Beans.RatingsProfileQueryResponseBean;
-import com.cyntex.TourismApp.Beans.RatingsProfileRequestBean;
-import com.cyntex.TourismApp.Beans.RatingsProfileResponseBean;
-import com.cyntex.TourismApp.Beans.RegistrationRequestBean;
-import com.cyntex.TourismApp.Beans.UserRating;
-import com.cyntex.TourismApp.Exception.BadRequestException;
-import com.cyntex.TourismApp.Persistance.FriendListDAO;
-import com.cyntex.TourismApp.Persistance.UserDAO;
-import com.cyntex.TourismApp.Persistance.UserProfileDAO;
-import com.cyntex.TourismApp.Persistance.UserRatingsProfileDAO;
-import com.cyntex.TourismApp.Util.DataSourceManager;
-import com.cyntex.TourismApp.Util.UserRatingCalculator;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class DiscoverTouristFriendRequestHandler {
@@ -47,8 +34,8 @@ public class DiscoverTouristFriendRequestHandler {
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor= Exception.class ,  timeout=120)
 	public List<DiscoverTouristFriendUserProfileQueryResponseBean> discoverTouristFriend (
 		DiscoverTouristFriendRequestBean discoverTouristFriendRequestBean) throws Exception {
-		
-		RatingsProfileResponseBean ProfileResponseBean = new RatingsProfileResponseBean();
+
+		ProfileResponseBean ProfileResponseBean = new ProfileResponseBean();
 		
 		List<UserRating> requestedUserRatingList = new ArrayList<UserRating>();
 		
@@ -61,8 +48,7 @@ public class DiscoverTouristFriendRequestHandler {
 
 			requestedUserRatingList = userRatingCalculator
 					.RatingProfileResponse(queryResponse).getUserRatings();
-			ProfileResponseBean = userRatingCalculator
-					.RatingProfileResponse(queryResponse);
+				ProfileResponseBean = userRatingCalculator.RatingProfileResponse(queryResponse);
 			ArrayList<String> counterBucket = new ArrayList<String>();
 			for (UserRating userRating : requestedUserRatingList) {
 
@@ -75,8 +61,7 @@ public class DiscoverTouristFriendRequestHandler {
 					if ( !isRecordAlreadyExists &&(!counterBucket.contains(usernameOfQuaryResponseBean))&& averageRating >= userRating.getRating() - 1
 							&& averageRating <= userRating.getRating() + 1) {
 						counterBucket.add(usernameOfQuaryResponseBean);
-						touristFriendProfileList.add(userDAO
-										.getUserRatingsProfile(usernameOfQuaryResponseBean));
+						touristFriendProfileList.add(userDAO.getDiscoveryProfile(usernameOfQuaryResponseBean));
 						if (touristFriendProfileList.size() >= 10) {
 							break;
 						}

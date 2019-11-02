@@ -1,41 +1,13 @@
 package com.cyntex.TourismApp.Controller;
 
-import java.util.List;
-
 import com.cyntex.TourismApp.Beans.*;
-import com.cyntex.TourismApp.Beans.*;
-import com.cyntex.TourismApp.Logic.FriendRequestHandler;
-import com.cyntex.TourismApp.Logic.ChatGroupRequestHandler;
-import com.cyntex.TourismApp.Logic.DiscoverTouristFriendRequestHandler;
-import com.cyntex.TourismApp.Logic.FoodRequestHandler;
-import com.cyntex.TourismApp.Logic.RatingProfileRequestHandler;
-import com.cyntex.TourismApp.Logic.TestRequestHandler;
-import com.cyntex.TourismApp.Services.GroupParticipantService;
-import com.cyntex.TourismApp.Services.UserFriendService;
-import com.cyntex.TourismApp.Services.ChatGroupService;
-import com.cyntex.TourismApp.Services.TouristAttractionService;
-import com.cyntex.TourismApp.Services.TouristFriendService;
-import com.cyntex.TourismApp.Services.MakeAdminService;
-import com.cyntex.TourismApp.Services.MessageService;
-import com.cyntex.TourismApp.Services.TouristService;
-import com.cyntex.TourismApp.Util.JSONHandler;
-
-import com.cyntex.TourismApp.Beans.BaseResponse;
-import com.cyntex.TourismApp.Beans.GetUserChatGroupRequestBean;
-import com.cyntex.TourismApp.Beans.LoginRequestBean;
-import com.cyntex.TourismApp.Beans.RatingsProfileRequestBean;
-import com.cyntex.TourismApp.Beans.RegistrationRequestBean;
 import com.cyntex.TourismApp.Logic.FoodRequestHandler;
 import com.cyntex.TourismApp.Logic.TestRequestHandler;
 import com.cyntex.TourismApp.Logic.TransportDataRequestHandler;
 import com.cyntex.TourismApp.Logic.UserRequestHandler;
-import com.cyntex.TourismApp.Services.AuthService;
+import com.cyntex.TourismApp.Services.*;
 import com.cyntex.TourismApp.Util.FSManager;
 import com.cyntex.TourismApp.Util.JSONHandler;
-
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;

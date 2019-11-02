@@ -1,5 +1,6 @@
 package com.cyntex.TourismApp.Persistance;
 
+import com.cyntex.TourismApp.Beans.DiscoverTouristFriendRatingDetailQueryResponseBean;
 import com.cyntex.TourismApp.Beans.RatingsProfileQueryResponseBean;
 import com.cyntex.TourismApp.Util.DataSourceManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class UserRatingsProfileDAO {
 
     public List<DiscoverTouristFriendRatingDetailQueryResponseBean> getAverageRating(String category, String username){
 
-        List<DiscoverTouristFriendRatingDetailQueryResponseBean> queryData= jdbcTemplate.query(
+        List<DiscoverTouristFriendRatingDetailQueryResponseBean> queryData = dataSourceManager.getJdbcTemplate().query(
                 findAverageRatingValueFetchQuery,new Object[]{category, username},new int[]{Types.VARCHAR,Types.VARCHAR},
                 (rs, rowNum) -> new DiscoverTouristFriendRatingDetailQueryResponseBean(
                         rs.getString("username"),rs.getDouble("average_rating"))

@@ -21,9 +21,9 @@ public class UserRequestHandler {
         try {
             List<RatingsProfileQueryResponseBean> queryResponse =
                     userDAO.getUserRatingsProfile(profileRequestBean.getUsername());
-            Map<String, List<Integer>> userRatingsTotals = new HashMap<>();
+            Map<String, List<Double>> userRatingsTotals = new HashMap<>();
             for (RatingsProfileQueryResponseBean queryResponseBean : queryResponse) {
-                List<Integer> ratingValue = userRatingsTotals.get(queryResponseBean.getCategory());
+                List<Double> ratingValue = userRatingsTotals.get(queryResponseBean.getCategory());
                 if (ratingValue == null) {
                     ratingValue = new ArrayList<>();
                     ratingValue.add(queryResponseBean.getRating());
@@ -34,9 +34,9 @@ public class UserRequestHandler {
             }
             responseBean.setUserRatings(new ArrayList<>());
             for (String category : userRatingsTotals.keySet()) {
-                int totalRating = userRatingsTotals.get(category)
-                                                   .stream()
-                                                   .mapToInt(x -> x).sum();
+                double totalRating = userRatingsTotals.get(category)
+                                                      .stream()
+                                                      .mapToDouble(x -> x).sum();
                 double averageRating =
                         Math.round((((double) totalRating / userRatingsTotals.get(category).size())) * 100.0) / 100.0;
                 responseBean.getUserRatings().add(new UserRating(category, averageRating));
