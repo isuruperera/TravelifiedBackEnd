@@ -26,7 +26,7 @@ public class TouristServiceDAO {
 		this.jdbcTemplate = jdbcTemplate;
 	}
     
-    private static final String getTouristServicesByTitleQuery="select * from tourist_service where service_title = ? ";
+    private static final String getTouristServicesByTitleQuery="select * from tourist_service where service_title like ? ";
 	
     
     private static final String getAllTouristServices="select * from tourist_service ";
@@ -51,7 +51,7 @@ public class TouristServiceDAO {
 
 	public List<GetTouristServiceQueryResponseBean> getTouristServiceByTitle(String serviceTitle) throws Exception{
 		List<GetTouristServiceQueryResponseBean> queryData=jdbcTemplate.query(getTouristServicesByTitleQuery,
-                new Object[] {serviceTitle},
+                new Object[] {serviceTitle+"%"},
                 new int[]{Types.VARCHAR },  (rs, rowNum) -> new GetTouristServiceQueryResponseBean(
                 		rs.getInt("service_id"),rs.getString("service_title"),rs.getString("service_description"),
                 		rs.getString("owner_uname"),rs.getString("title_photo_url"),

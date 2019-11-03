@@ -1,5 +1,7 @@
 package com.cyntex.TourismApp.Services;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import com.cyntex.TourismApp.Beans.GetTouristServiceResponseBean;
 import com.cyntex.TourismApp.Exception.BadRequestException;
 import com.cyntex.TourismApp.Logic.TouristServiceHandler;
 import com.cyntex.TourismApp.Logic.TouristServiceProvideHandler;
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 
 @Service
@@ -62,8 +65,9 @@ public class TouristService {
 		}catch(DuplicateKeyException e){
 			baseResponse.setStatus("FAILED : this service provider already exists ");
 			
-		}	
-		catch(Exception e){
+		}catch (MySQLIntegrityConstraintViolationException e){	
+			baseResponse.setStatus("FAILED : enter valid service id or valid username");
+		}catch(Exception e){
 			
 			baseResponse.setStatus("Transaction fails"+e.getMessage());
 			
