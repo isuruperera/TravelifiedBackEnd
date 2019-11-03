@@ -1,9 +1,8 @@
 package com.cyntex.TourismApp.Services;
 
 import com.cyntex.TourismApp.Beans.BaseResponse;
-import com.cyntex.TourismApp.Beans.RatingsProfileRequestBean;
-import com.cyntex.TourismApp.Logic.RatingProfileRequestHandler;
-
+import com.cyntex.TourismApp.Beans.ProfileRequestBean;
+import com.cyntex.TourismApp.Logic.UserRequestHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +10,9 @@ import org.springframework.stereotype.Service;
 public class RatingProfileRequestService {
 
     @Autowired
-    private RatingProfileRequestHandler ratingProfileRequestHandler;
+    private UserRequestHandler userRequestHandler;
 
-    public BaseResponse getRatingProfile(RatingsProfileRequestBean requestBean) {
-        return ratingProfileRequestHandler.handle(requestBean);
+    public BaseResponse getRatingProfile(ProfileRequestBean requestBean) {
+        return userRequestHandler.handle(requestBean);
     }
 }

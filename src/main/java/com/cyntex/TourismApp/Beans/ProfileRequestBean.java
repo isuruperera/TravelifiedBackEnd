@@ -1,6 +1,6 @@
 package com.cyntex.TourismApp.Beans;
 
-public class RatingsProfileRequestBean {
+public class ProfileRequestBean {
     private String username;
 
     public String getUsername() {

@@ -1,21 +1,20 @@
 package com.cyntex.TourismApp.Util;
 
+import com.cyntex.TourismApp.Beans.ProfileResponseBean;
+import com.cyntex.TourismApp.Beans.RatingsProfileQueryResponseBean;
+import com.cyntex.TourismApp.Beans.UserRating;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
-
-import com.cyntex.TourismApp.Beans.RatingsProfileQueryResponseBean;
-import com.cyntex.TourismApp.Beans.RatingsProfileResponseBean;
-import com.cyntex.TourismApp.Beans.UserRating;
-
 @Component
 public class UserRatingCalculator {
-	 
-	public RatingsProfileResponseBean RatingProfileResponse(List<RatingsProfileQueryResponseBean> queryResponse){
-		RatingsProfileResponseBean responseBean = new RatingsProfileResponseBean();
+
+	public ProfileResponseBean RatingProfileResponse(List<RatingsProfileQueryResponseBean> queryResponse) {
+		ProfileResponseBean responseBean = new ProfileResponseBean();
 		    Map<String, List<Double>> userRatingsTotals = new HashMap<>();
 		    for (RatingsProfileQueryResponseBean queryResponseBean : queryResponse) {
 		        List<Double> ratingValue = userRatingsTotals.get(queryResponseBean.getCategory());
