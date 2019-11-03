@@ -1,44 +1,13 @@
 package com.cyntex.TourismApp.Controller;
 
-//
-//<<<<<<< HEAD
-import java.util.List;
-
 import com.cyntex.TourismApp.Beans.*;
-import com.cyntex.TourismApp.Logic.FriendRequestHandler;
-import com.cyntex.TourismApp.Logic.ChatGroupRequestHandler;
-import com.cyntex.TourismApp.Logic.DiscoverTouristFriendRequestHandler;
 import com.cyntex.TourismApp.Logic.FoodRequestHandler;
-import com.cyntex.TourismApp.Logic.RatingProfileRequestHandler;
 import com.cyntex.TourismApp.Logic.TestRequestHandler;
-import com.cyntex.TourismApp.Services.GroupParticipantService;
-import com.cyntex.TourismApp.Services.UserFriendService;
-import com.cyntex.TourismApp.Services.ChatGroupService;
-import com.cyntex.TourismApp.Services.TouristAttractionService;
-import com.cyntex.TourismApp.Services.TouristFriendService;
-import com.cyntex.TourismApp.Services.MakeAdminService;
-import com.cyntex.TourismApp.Services.MessageService;
-import com.cyntex.TourismApp.Services.TouristService;
-import com.cyntex.TourismApp.Util.JSONHandler;
-
-//=======
-import com.cyntex.TourismApp.Beans.BaseResponse;
-import com.cyntex.TourismApp.Beans.GetUserChatGroupRequestBean;
-import com.cyntex.TourismApp.Beans.LoginRequestBean;
-import com.cyntex.TourismApp.Beans.RatingsProfileRequestBean;
-import com.cyntex.TourismApp.Beans.RegistrationRequestBean;
-import com.cyntex.TourismApp.Logic.FoodRequestHandler;
-import com.cyntex.TourismApp.Logic.RatingProfileRequestHandler;
-import com.cyntex.TourismApp.Logic.TestRequestHandler;
-import com.cyntex.TourismApp.Services.AuthService;
+import com.cyntex.TourismApp.Logic.TransportDataRequestHandler;
+import com.cyntex.TourismApp.Logic.UserRequestHandler;
+import com.cyntex.TourismApp.Services.*;
 import com.cyntex.TourismApp.Util.FSManager;
 import com.cyntex.TourismApp.Util.JSONHandler;
-
-
-
-
-
-//>>>>>>> 17255464ae7af3e8bfa154280d0c3f97dd868db7
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -57,36 +26,39 @@ public class BackEndRestController {
     private FoodRequestHandler foodRequestHandler;
 
     @Autowired
-    private RatingProfileRequestHandler ratingProfileRequestHandler;
+    private UserRequestHandler userRequestHandler;
+
+    @Autowired
+    private TransportDataRequestHandler transportDataRequestHandler;
 
     @Autowired
     private TestRequestHandler testRequestHandler;
-    
+
     @Autowired
     private TouristFriendService touristFriendService;
-    
+
     @Autowired
     private ChatGroupService chatGroupService;
-    
+
     @Autowired
     private UserFriendService userFriendService;
-    
+
     @Autowired
     private TouristAttractionService touristAttractionService;
-    
+
     @Autowired
     private MessageService messageService;
-    
+
     @Autowired
     private MakeAdminService makeAdminService;
-   
+
     @Autowired
     private GroupParticipantService groupParticipantService;
-    
+
     @Autowired
     private TouristService touristService;
-    
-    
+
+
     @RequestMapping(value="/serviceCheck",method= RequestMethod.GET)
     public String serviceCheck() throws Exception{
     	return JSONHandler.parseToJSON("Service is ok");
@@ -123,6 +95,81 @@ public class BackEndRestController {
     }
 
     @CrossOrigin()
+    @RequestMapping(value = "/summary", method = RequestMethod.POST)
+    public String attaractionDataSummary(@RequestBody String data) throws Exception {
+        try {
+            DiscoverRequestBean discoverRequestBean = JSONHandler.parseFromJSON(data, DiscoverRequestBean.class);
+            BaseResponse response = transportDataRequestHandler.handle(discoverRequestBean);
+            return JSONHandler.parseToJSON(response);
+        } catch (Exception e) {
+            BaseResponse response = new BaseResponse();
+            response.setStatus("FAILED: Invalid Request!");
+            e.printStackTrace();
+            return JSONHandler.parseToJSON(response);
+        }
+    }
+
+    @CrossOrigin()
+    @RequestMapping(value = "/transport", method = RequestMethod.POST)
+    public String transportData(@RequestBody String data) throws Exception {
+        try {
+            TransportDataRequestBean transportDataRequestBean = JSONHandler.parseFromJSON(data, TransportDataRequestBean.class);
+            BaseResponse response = transportDataRequestHandler.handle(transportDataRequestBean);
+            return JSONHandler.parseToJSON(response);
+        } catch (Exception e) {
+            BaseResponse response = new BaseResponse();
+            response.setStatus("FAILED: Invalid Request!");
+            e.printStackTrace();
+            return JSONHandler.parseToJSON(response);
+        }
+    }
+
+    @CrossOrigin()
+    @RequestMapping(value = "/calculateFare", method = RequestMethod.POST)
+    public String transportFareCalculate(@RequestBody String data) throws Exception {
+        try {
+            TransportFeeCalculateRequestBean transportDataRequestBean = JSONHandler.parseFromJSON(data, TransportFeeCalculateRequestBean.class);
+            BaseResponse response = transportDataRequestHandler.handle(transportDataRequestBean);
+            return JSONHandler.parseToJSON(response);
+        } catch (Exception e) {
+            BaseResponse response = new BaseResponse();
+            response.setStatus("FAILED: Invalid Request!");
+            e.printStackTrace();
+            return JSONHandler.parseToJSON(response);
+        }
+    }
+
+    @CrossOrigin()
+    @RequestMapping(value = "/busfare", method = RequestMethod.POST)
+    public String busFare(@RequestBody String data) throws Exception {
+        try {
+            BusInformationRequestBean busInformationRequestBean = JSONHandler.parseFromJSON(data, BusInformationRequestBean.class);
+            BaseResponse response = transportDataRequestHandler.handle(busInformationRequestBean);
+            return JSONHandler.parseToJSON(response);
+        } catch (Exception e) {
+            BaseResponse response = new BaseResponse();
+            response.setStatus("FAILED: Invalid Request!");
+            e.printStackTrace();
+            return JSONHandler.parseToJSON(response);
+        }
+    }
+
+    @CrossOrigin()
+    @RequestMapping(value = "/location", method = RequestMethod.POST)
+    public String location(@RequestBody String data) throws Exception {
+        try {
+            LocationCoordinateRequestBean locationCoordinateRequestBean = JSONHandler.parseFromJSON(data, LocationCoordinateRequestBean.class);
+            BaseResponse response = transportDataRequestHandler.handle(locationCoordinateRequestBean);
+            return JSONHandler.parseToJSON(response);
+        } catch (Exception e) {
+            BaseResponse response = new BaseResponse();
+            response.setStatus("FAILED: Invalid Request!");
+            e.printStackTrace();
+            return JSONHandler.parseToJSON(response);
+        }
+    }
+
+    @CrossOrigin()
     @RequestMapping(value = "/image", method = RequestMethod.GET)
     public byte[] getImage(@RequestParam("id") String imageID) throws Exception {
         try {
@@ -132,19 +179,11 @@ public class BackEndRestController {
         }
     }
 
-//    @CrossOrigin()
-//    @RequestMapping(value="/shops/list",method= RequestMethod.POST)
-//    public String requestFoodShopData(@RequestBody String data) throws Exception {
-//        ShopDetailsRequestBean shopDetailsRequestBean = JSONHandler.parseFromJSON(data, ShopDetailsRequestBean.class);
-//        BaseResponse response = foodRequestHandler.handle(shopDetailsRequestBean);
-//        return JSONHandler.parseToJSON(response);
-//    }
-
     @CrossOrigin()
-    @RequestMapping(value="/user/rating_profile",method= RequestMethod.POST)
-    public String requestUserRatingProfile(@RequestBody String data) throws Exception {
-        RatingsProfileRequestBean shopDetailsRequestBean = JSONHandler.parseFromJSON(data, RatingsProfileRequestBean.class);
-        BaseResponse response = ratingProfileRequestHandler.handle(shopDetailsRequestBean);
+    @RequestMapping(value = "/user/profile", method = RequestMethod.POST)
+    public String requestUserProfile(@RequestBody String data) throws Exception {
+        ProfileRequestBean shopDetailsRequestBean = JSONHandler.parseFromJSON(data, ProfileRequestBean.class);
+        BaseResponse response = userRequestHandler.handle(shopDetailsRequestBean);
         return JSONHandler.parseToJSON(response);
        
     }
@@ -198,10 +237,10 @@ public class BackEndRestController {
     	BaseResponse response = touristFriendService.discoverTouristFriend(discoverTouristFriendRequestBean);
       
         return ResponseEntity.ok(response);
-    	
+
     }
-    
-    
+
+
     @CrossOrigin()
     @RequestMapping(value="/createChatGroup" , method = RequestMethod.POST)
     public ResponseEntity createChatGroup(@RequestBody String data)throws Exception{
@@ -212,7 +251,7 @@ public class BackEndRestController {
     	
     	
     }
-    
+
     @CrossOrigin()
     @RequestMapping(value="/addTouristFriend", method= RequestMethod.POST)
     public ResponseEntity AddTouristFriend(@RequestBody String data)throws Exception{
@@ -220,21 +259,21 @@ public class BackEndRestController {
     	BaseResponse response = userFriendService.addTouristFriend(addFriendRequestBean);
     	
     	 return ResponseEntity.ok(response);
-    	
-    	
+   
     }
-    
+
     @CrossOrigin()
     @RequestMapping(value="/getUserFriends" , method = RequestMethod.POST)
     public ResponseEntity getTouristFriend(@RequestBody String data)throws Exception{
     	GetUserFriendRequest getUserFriendRequest= JSONHandler.parseFromJSON(data, GetUserFriendRequest.class);
     	BaseResponse response= userFriendService.getUserFriend(getUserFriendRequest);
+
     	
     	 return ResponseEntity.ok(response);
     	
-    	
-    }
     
+    }
+
     @CrossOrigin()
     @RequestMapping(value="/discoverTouristAttraction")
     public ResponseEntity discoverTouristAttraction(@RequestBody String data) throws Exception{
@@ -243,7 +282,7 @@ public class BackEndRestController {
     	
     	 return ResponseEntity.ok(response);
     }
-    
+
     @CrossOrigin()
     @RequestMapping(value="/addTouristAttraction", method= RequestMethod.POST)
     public ResponseEntity AddTouristAttraction(@RequestBody String data)throws Exception{
@@ -252,7 +291,6 @@ public class BackEndRestController {
     	
     	 return ResponseEntity.ok(response);
     	
-    	
     }
 
     @CrossOrigin()
@@ -260,12 +298,14 @@ public class BackEndRestController {
     public ResponseEntity addFriendToChatGroup(@RequestBody String data) throws Exception{
     	AddFriendToChatGroupRequestBean addFriendToChatGroup = JSONHandler.parseFromJSON(data, AddFriendToChatGroupRequestBean.class);
     	BaseResponse response =groupParticipantService.addFriend(addFriendToChatGroup);
+
     	
     	 return ResponseEntity.ok(response);
     	
     	
+
     }
-    
+
     @CrossOrigin()
     @RequestMapping(value="/userGroupChat")
     public ResponseEntity getChatGroup(@RequestBody String data) throws Exception{
@@ -274,9 +314,9 @@ public class BackEndRestController {
     
     	 return ResponseEntity.ok(response);
     	
-    	
-    }
     
+    }
+
 
     @CrossOrigin()
     @RequestMapping(value="/makeAdmin")
@@ -288,18 +328,19 @@ public class BackEndRestController {
     	
     	
     }
-    
+
     @CrossOrigin()
     @RequestMapping(value="/sendMessage" , method= RequestMethod.POST)
     public ResponseEntity sendMesssage(@RequestBody String data) throws Exception{
     	SendMessageRequestBean sendMessageRequestBean = JSONHandler.parseFromJSON(data, SendMessageRequestBean.class);
     	BaseResponse response= messageService.sendMessage(sendMessageRequestBean);
-    	
+
     	 return ResponseEntity.ok(response);
     	
+
     }
-    
-    
+
+
     @CrossOrigin()
     @RequestMapping(value="/getMessage/{chatId}" , method= RequestMethod.GET)
     public ResponseEntity getMessage(@PathVariable("chatId") int chatId) throws Exception{
@@ -307,9 +348,9 @@ public class BackEndRestController {
     	
     	 return ResponseEntity.ok(response);
     	
-    	
+  
     }
-    
+
     @CrossOrigin()
     @RequestMapping(value="/deleteChatGroupMember" , method= RequestMethod.POST)
     public ResponseEntity deleteMember(@RequestBody String data) throws Exception{
@@ -319,7 +360,7 @@ public class BackEndRestController {
     	 return ResponseEntity.ok(response);
     	
     }
-    
+
     @CrossOrigin()
     @RequestMapping(value="/searchFriend/{firstname}" , method= RequestMethod.GET)
     public ResponseEntity searchFriend(@PathVariable("firstname") String data) throws Exception{
@@ -327,9 +368,9 @@ public class BackEndRestController {
     	BaseResponse response= touristFriendService.searchFriend(data);
     	
     	 return ResponseEntity.ok(response);
-    	
+
     }
-    
+
     @CrossOrigin()
     @RequestMapping(value="/addTouristService" , method= RequestMethod.POST)
     public ResponseEntity addTouristService(@RequestBody String data) throws Exception{
@@ -338,8 +379,9 @@ public class BackEndRestController {
     	
     	 return ResponseEntity.ok(response);
     	
-    } 
-    
+  
+
+    }
     @CrossOrigin()
     @RequestMapping(value="/getTouristService/{serviceTitle}" , method= RequestMethod.GET)
     public ResponseEntity getService(@PathVariable("serviceTitle") String data) throws Exception{
@@ -348,7 +390,7 @@ public class BackEndRestController {
     	 return ResponseEntity.ok(response);
     	
     }
-    
+
     @CrossOrigin()
     @RequestMapping(value="/getAllTouristService" , method= RequestMethod.GET)
     public ResponseEntity getAllServices() throws Exception{
@@ -357,8 +399,8 @@ public class BackEndRestController {
     	 return ResponseEntity.ok(response);
     	
     }
-  
-    
+
+
     @CrossOrigin()
     @RequestMapping(value="/addServiceProvider" , method= RequestMethod.POST)
     public ResponseEntity addServiceProvider(@RequestBody String data) throws Exception{
@@ -376,17 +418,19 @@ public class BackEndRestController {
     	 return ResponseEntity.ok(response);
     }
 
-    
+
     @CrossOrigin()
     @RequestMapping(value="/contactTouristGuideGetMessage" , method= RequestMethod.POST)
     public ResponseEntity ContactTouristGuideGetMessage(@RequestBody String data) throws Exception{
     	ContactTouristGuideGetMessageRequestBean contactTouristGuideGetMessageRequestBean = JSONHandler.parseFromJSON(data, ContactTouristGuideGetMessageRequestBean.class);
     	BaseResponse response= messageService.getMessageFromTouristGuide(contactTouristGuideGetMessageRequestBean);
+
     	
     	 return ResponseEntity.ok(response);
+
     }
-  
-    
+
+
 
 
 }
