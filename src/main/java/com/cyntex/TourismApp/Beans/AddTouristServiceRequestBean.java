@@ -10,7 +10,7 @@ public class AddTouristServiceRequestBean {
 	private String ownername;	
 	private String titlePhoto;	
 	//private String photoCollectionId;	
-	private String locationId;
+	//private String locationId;
 	private String ratingProfileId;
 	private String[] photoCollection;
 	private double lng;
@@ -19,12 +19,12 @@ public class AddTouristServiceRequestBean {
 	
 	
 	
-	public String getLocationId() {
-		return locationId;
-	}
-	public void setLocationId(String locationId) {
-		this.locationId = locationId;
-	}
+//	public String getLocationId() {
+//		return locationId;
+//	}
+//	public void setLocationId(String locationId) {
+//		this.locationId = locationId;
+//	}
 	public String[] getPhotoCollection() {
 		return photoCollection;
 	}
