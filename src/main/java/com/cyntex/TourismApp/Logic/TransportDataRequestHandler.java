@@ -32,6 +32,10 @@ public class TransportDataRequestHandler {
         BusInformationResponseBean busInformationResponseBean = new BusInformationResponseBean();
         List<DBBusFareBean> dbBusFareBeas = transportDAO.getTransportInfoForTowns(busInformationRequestBean.getFrom(),
                                                                                   busInformationRequestBean.getTo());
+        if (dbBusFareBeas.isEmpty()) {
+            dbBusFareBeas = transportDAO.getTransportInfoForTowns(busInformationRequestBean.getTo(),
+                                                                  busInformationRequestBean.getFrom());
+        }
         if (!dbBusFareBeas.isEmpty()) {
             DBBusFareBean dbBusFareBean = dbBusFareBeas.get(0);
             List<BusFareBean> busFares = new ArrayList<>();
@@ -69,12 +73,6 @@ public class TransportDataRequestHandler {
         return locationCoordinateResponseBean;
     }
 
-    public BaseResponse handle(DiscoverRequestBean discoverRequestBean) {
-        DiscoverResponseBean discoverResponseBean = new DiscoverResponseBean();
-        discoverResponseBean.setStatus("SUCCESS");
-        discoverResponseBean.setAttaractions(transportDAO.getAttaractions(discoverRequestBean.getLocationID()));
-        return discoverResponseBean;
-    }
 
     public BaseResponse handle(TransportFeeCalculateRequestBean transportFeeCalculateRequestBean) {
         TransportFeeCalculateResponseBean busFareEstimationBean = new TransportFeeCalculateResponseBean();
@@ -100,6 +98,14 @@ public class TransportDataRequestHandler {
         busFareEstimationBean.setFareEstimation(totalFee);
         busFareEstimationBean.setStatus("SUCCESS");
         return busFareEstimationBean;
+    }
+
+    public BaseResponse handle(DiscoverTouristAttractionRequestBean requestBean) {
+        DiscoverResponseBean discoverResponseBean = new DiscoverResponseBean();
+        discoverResponseBean.setStatus("SUCCESS");
+        discoverResponseBean.setAttaractions(transportDAO.getAttaractions(requestBean.getLongitude(),
+                                                                          requestBean.getLatitude()));
+        return discoverResponseBean;
     }
 
 

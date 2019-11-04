@@ -7,13 +7,16 @@ public class AttaractionSummary {
     private final LocationBean location;
     private final double fee;
     private double rating;
+    private String titlePhoto;
 
-    public AttaractionSummary(int serviceID, String name, String description, LocationBean location, double fee) {
+    public AttaractionSummary(int serviceID, String name, String description, LocationBean location, double fee,
+                              String titlePhoto) {
         this.serviceID = serviceID;
         this.name = name;
         this.description = description;
         this.location = location;
         this.fee = fee;
+        this.titlePhoto = titlePhoto;
     }
 
 
@@ -45,4 +48,11 @@ public class AttaractionSummary {
         return description;
     }
 
+    public String getTitlePhoto() {
+        return titlePhoto;
+    }
+
+    public void setTitlePhoto(String titlePhoto) {
+        this.titlePhoto = titlePhoto;
+    }
 }

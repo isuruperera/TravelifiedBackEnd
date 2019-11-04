@@ -3,6 +3,7 @@ package com.cyntex.TourismApp.Persistance;
 import com.cyntex.TourismApp.Beans.*;
 import com.cyntex.TourismApp.Util.DataSourceManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,24 +13,55 @@ import java.util.List;
 @Component
 public class UserDAO {
 
-    private static String userRetrieveQuery = "select * from user where username = ?";
+    private static final String checkIsAdmin =
+            "select count(*) as counter from user where username = ? and is_admin = '1' and is_active = '1'";
 
     private static final String ratingsProfileFetchQuery
             = "select * from user_rating_profile where username = ?";
-
-    private static final String checkIsAdmin=
-            "select count(*) as counter from user where username = ? and is_admin = '1' ";
+    private static final String checkExistance=
+            "select count(*) as counter from user where username = ? and first_name = ? and is_active = '1'";
 
     private int response;
-
-    private static final String checkExistance=
-            "select count(*) as counter from user where username = ? and first_name = ?";
+    private static final String addUserRating = "insert into user_rating_profile (username, category, rating, " +
+            "rated_by) values(?,?,?,?)";
 
     private static final String userRetreveRequestQuery=
             "select * from user where first_name like ?";
+    private static String userRetrieveQuery = "select * from user where username = ? and is_active = '1'";
 
     @Autowired
     private DataSourceManager dataSourceManager;
+
+    @Transactional
+    public void setAddUserRating(String userId, String raterId, int adventurer, int entertainer, int friend,
+                                 int masterChef, int animalLover) {
+        JdbcTemplate jdbcTemplate = dataSourceManager.getJdbcTemplate();
+        jdbcTemplate.update(
+                addUserRating,
+                new Object[]{userId, "Adventurer", adventurer, raterId},
+                new int[]{Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR}
+        );
+        jdbcTemplate.update(
+                addUserRating,
+                new Object[]{userId, "Entertainer", entertainer, raterId},
+                new int[]{Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR}
+        );
+        jdbcTemplate.update(
+                addUserRating,
+                new Object[]{userId, "Friend In Need", friend, raterId},
+                new int[]{Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR}
+        );
+        jdbcTemplate.update(
+                addUserRating,
+                new Object[]{userId, "Master Chef", masterChef, raterId},
+                new int[]{Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR}
+        );
+        jdbcTemplate.update(
+                addUserRating,
+                new Object[]{userId, "Animal Lover", animalLover, raterId},
+                new int[]{Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR}
+        );
+    }
 
     @Transactional
     public List<AuthenticatedUserBean> getAuthenticatedUser(String username) {

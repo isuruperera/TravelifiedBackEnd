@@ -1,7 +1,7 @@
 package com.cyntex.TourismApp.Beans;
 
 public class BaseResponse {
-    private String status;
+    private String status = "FAIL";
 
     public String getStatus() {
         return status;

@@ -1,16 +1,10 @@
 package com.cyntex.TourismApp.Services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.cyntex.TourismApp.Beans.AddTouristAttractionRequestBean;
-import com.cyntex.TourismApp.Beans.AddTouristAttractionResponseBean;
-import com.cyntex.TourismApp.Beans.BaseResponse;
-import com.cyntex.TourismApp.Beans.DiscoverTouristAttractionPlaceResponseBean;
-import com.cyntex.TourismApp.Beans.DiscoverTouristAttractionRequestBean;
-import com.cyntex.TourismApp.Beans.GetUserChatGroupResponseBean;
+import com.cyntex.TourismApp.Beans.*;
 import com.cyntex.TourismApp.Exception.BadRequestException;
 import com.cyntex.TourismApp.Logic.TouristAttractionRequestHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class TouristAttractionService {
@@ -22,20 +16,13 @@ public class TouristAttractionService {
 	
 	public BaseResponse discoverTouristAttraction(DiscoverTouristAttractionRequestBean discoverTouristAttractionRequestBean) throws Exception{
 		DiscoverTouristAttractionPlaceResponseBean baseResponse= new DiscoverTouristAttractionPlaceResponseBean();
-		
-
 		try{
 			baseResponse.setDiscoverTouristAttractionPlaceQueryResponseBean(touristAttractionRequestHandler.getTouristAttraction(discoverTouristAttractionRequestBean));
 	        baseResponse.setStatus("SUCCESS");
-		
 		}catch(BadRequestException e){
-			
-			baseResponse.setStatus(e.getMessage());
-			
+			e.printStackTrace();
 		}catch(Exception e){
-			
-			baseResponse.setStatus("Transaction fails");
-			
+			e.printStackTrace();
 		}
 		return baseResponse;
 		

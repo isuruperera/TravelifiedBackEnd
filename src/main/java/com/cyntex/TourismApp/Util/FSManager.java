@@ -17,7 +17,7 @@ public class FSManager {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            BufferedWriter writer = new BufferedWriter(new FileWriter("/images/" + imageID + ".pic"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("images/" + imageID + ".pic"));
             writer.write(base64String);
             writer.close();
         } catch (Exception e) {
@@ -27,7 +27,7 @@ public class FSManager {
 
     public static byte[] retrieveImage(String imageID) {
         try {
-            byte[] encoded = Files.readAllBytes(Paths.get("/images/" + imageID + ".pic"));
+            byte[] encoded = Files.readAllBytes(Paths.get("images/" + imageID + ".pic"));
             String fileAsString = new String(encoded, StandardCharsets.US_ASCII);
             return DatatypeConverter.parseBase64Binary(fileAsString);
         } catch (Exception e) {
