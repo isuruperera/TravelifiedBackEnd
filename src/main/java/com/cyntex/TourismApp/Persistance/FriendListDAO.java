@@ -1,16 +1,12 @@
 package com.cyntex.TourismApp.Persistance;
 
-import java.sql.Types;
-import java.time.LocalDate;
-import java.util.List;
-
+import com.cyntex.TourismApp.Beans.GetUserFriendQueryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.cyntex.TourismApp.Beans.GetUserFriendQueryResponse;
-import com.cyntex.TourismApp.Util.DataSourceManager;
+import java.sql.Types;
+import java.util.List;
 
 
 @Component
@@ -61,7 +57,9 @@ public class FriendListDAO {
 		
 		List<GetUserFriendQueryResponse> userFriendResponse=jdbcTemplate.query(getFriendRequestQuery,
 				new Object[]{username},new int[]{Types.VARCHAR},(rs,rawNo)-> new GetUserFriendQueryResponse(
-						rs.getString("friendname"), rs.getString("first_name")+" " +rs.getString("last_name")));
+						rs.getString("friendname"),
+						rs.getString("first_name") + " " + rs.getString("last_name"),
+						rs.getString("picture_link")));
 		
 		
 		return userFriendResponse;

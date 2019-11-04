@@ -50,4 +50,23 @@ public class UserRequestHandler {
 
         return responseBean;
     }
+
+    public BaseResponse handle(AddUserRatingBean userRatingBean) {
+        BaseResponse baseResponse = new BaseResponse();
+        try {
+            userDAO.setAddUserRating(userRatingBean.getRatingUserId(),
+                                     userRatingBean.getUserId(),
+                                     userRatingBean.getAdventurer(),
+                                     userRatingBean.getEntertainer(),
+                                     userRatingBean.getFriendInNeed(),
+                                     userRatingBean.getMasterChef(),
+                                     userRatingBean.getAnimalLover());
+            baseResponse.setStatus("SUCCESS");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return baseResponse;
+    }
 }

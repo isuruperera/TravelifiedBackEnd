@@ -1,7 +1,5 @@
 package com.cyntex.TourismApp.Services;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -16,6 +14,13 @@ import com.cyntex.TourismApp.Exception.BadRequestException;
 import com.cyntex.TourismApp.Logic.TouristServiceHandler;
 import com.cyntex.TourismApp.Logic.TouristServiceProvideHandler;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+import com.cyntex.TourismApp.Beans.*;
+import com.cyntex.TourismApp.Exception.BadRequestException;
+import com.cyntex.TourismApp.Logic.TouristServiceHandler;
+import com.cyntex.TourismApp.Logic.TouristServiceProvideHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.stereotype.Service;
 
 
 @Service
@@ -109,7 +114,28 @@ public class TouristService {
 			baseResponse.setStatus("Transaction fails"+e.getMessage());
 		}
 		return baseResponse;
-		
+	}
+
+	public BaseResponse addTouristServiceComment(ServiceRatingCommentBean comment) {
+		BaseResponse baseResponse = new BaseResponse();
+		try {
+			touristServiceHandler.addServiceComment(comment);
+			baseResponse.setStatus("SUCCESS");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return baseResponse;
+	}
+
+	public BaseResponse getAllServiceComments(ServiceCommentRequestBean comment) {
+		TouristServiceCommentsResponse baseResponse = new TouristServiceCommentsResponse();
+		try {
+			baseResponse = touristServiceHandler.getAllServiceComments(comment.getServiceId());
+			baseResponse.setStatus("SUCCESS");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return baseResponse;
 	}
 
 

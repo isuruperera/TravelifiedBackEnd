@@ -1,29 +1,22 @@
 package com.cyntex.TourismApp.Logic;
 
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.List;
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-
 import com.cyntex.TourismApp.Beans.AddTouristAttractionRequestBean;
-import com.cyntex.TourismApp.Beans.AddTouristAttractionResponseBean;
-import com.cyntex.TourismApp.Beans.AddTouristServiceResponseBean;
-import com.cyntex.TourismApp.Beans.BaseResponse;
 import com.cyntex.TourismApp.Beans.DiscoverTouristAttractionPlaceQueryResponseBean;
-import com.cyntex.TourismApp.Beans.DiscoverTouristAttractionPlaceResponseBean;
 import com.cyntex.TourismApp.Beans.DiscoverTouristAttractionQueryResponseBean;
 import com.cyntex.TourismApp.Beans.DiscoverTouristAttractionRequestBean;
 import com.cyntex.TourismApp.Exception.BadRequestException;
 import com.cyntex.TourismApp.Persistance.TouristAttractionDAO;
 import com.cyntex.TourismApp.Persistance.TouristAttractionPhotoCollectionDAO;
 import com.cyntex.TourismApp.Util.FSManager;
-import com.fasterxml.jackson.databind.deser.Deserializers.Base;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 
 @Component
@@ -95,7 +88,10 @@ public class TouristAttractionRequestHandler {
 					discoverTouristAttractionPlaceQueryResponseBean=touristAttractionDAO.getTouristAttraction(discoverTouristAttractionQueryResponseBean.getAttraction_id());
 					discoverTouristAttractionPlaceQueryResponseBean.setPhotoUrlCollection(touristAttractionPhotoCollectionDAO.getPhotoCollection(discoverTouristAttractionPlaceQueryResponseBean.getPhotoCollectionId()));	
 					discoverTouristAttractionResponseBeanList.add(discoverTouristAttractionPlaceQueryResponseBean);
-				}if(discoverTouristAttractionResponseBeanList.size()>=10){break;}
+                }
+                if (discoverTouristAttractionResponseBeanList.size() >= 25) {
+                    break;
+                }
 			}
 		
 	

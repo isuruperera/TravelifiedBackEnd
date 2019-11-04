@@ -1,9 +1,13 @@
 package com.cyntex.TourismApp.Beans;
 
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class DiscoverTouristAttractionPlaceResponseBean extends BaseResponse{
-	private List<DiscoverTouristAttractionPlaceQueryResponseBean> discoverTouristAttractionPlaceQueryResponseBean;
+    @JsonProperty("attractions")
+    private List<DiscoverTouristAttractionPlaceQueryResponseBean> discoverTouristAttractionPlaceQueryResponseBean;
 
 	public List<DiscoverTouristAttractionPlaceQueryResponseBean> getDiscoverTouristAttractionPlaceQueryResponseBean() {
 		return discoverTouristAttractionPlaceQueryResponseBean;

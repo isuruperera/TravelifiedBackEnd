@@ -1,18 +1,13 @@
 package com.cyntex.TourismApp.Persistance;
 
-import java.sql.Types;
-import java.util.List;
-
+import com.cyntex.TourismApp.Beans.DiscoverTouristAttractionPlaceQueryResponseBean;
+import com.cyntex.TourismApp.Beans.DiscoverTouristAttractionQueryResponseBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import ch.qos.logback.core.subst.Token.Type;
-
-import com.cyntex.TourismApp.Beans.DiscoverTouristAttractionPlaceQueryResponseBean;
-import com.cyntex.TourismApp.Beans.DiscoverTouristAttractionQueryResponseBean;
-import com.cyntex.TourismApp.Util.DataSourceManager;
+import java.sql.Types;
+import java.util.List;
 
 @Component
 public class TouristAttractionDAO {
@@ -20,7 +15,8 @@ public class TouristAttractionDAO {
 	private static final String touristAttractionPlacesFetchQuery=
 			"select * from tourist_attraction where attraction_id = ?";
 	private static final String addTouristAttrationQuery=
-			"insert into tourist_attraction(attraction_name,description,rating_profile_id,title_photo_url,photo_collection_id,lng,lat)  values (?,?,?,?,?,?,?)";
+			"insert into tourist_attraction(attraction_name,description,rating_profile_id,title_photo_url," +
+					"photo_collection_id,longitude,latitude)  values (?,?,?,?,?,?,?)";
 	
 	public static final String locationDetailFetcQuery=
 			"select * from tourist_attraction";

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Types;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -26,10 +25,11 @@ public class TransportDAO {
     private String locationRetrieveQuery = "SELECT * FROM location where location_id = ?";
 
     private String serviceDiscioveryQuery = "SELECT f.service_id as svc_id, f.service_fee as svc_fee, " +
-            "s.service_title as title, s.service_description as description, l.lat as lat, l.lng as lng " +
-            "from service_fee f, tourist_service s, location l " +
-            "where f.service_id = s.service_id and s.location_id = l.location_id and l.lat < ? " +
-            "and l.lat > ? and l.lng < ? and l.lng > ?";
+            "s.service_title as title, s.service_description as description, s.title_photo_url as title_ph, s.lat as " +
+            "lat, s.lng as lng " +
+            "from service_fee f, tourist_service s " +
+            "where f.service_id = s.service_id and s.lat < ? and s.lat > ? and s.lng < ? and s.lng > ? and s" +
+            ".is_active = '1'";
 
     @Autowired
     private DataSourceManager dataSourceManager;
@@ -79,24 +79,18 @@ public class TransportDAO {
     }
 
     @Transactional
-    public List<AttaractionSummary> getAttaractions(String id) {
-        List<LocationBean> locationBeans = this.getLocation(id);
-        if (locationBeans.isEmpty()) {
-            return new ArrayList<>();
-
-        }
-        double longitude = locationBeans.get(0).getLongitude();
-        double latitude = locationBeans.get(0).getLatitude();
+    public List<AttaractionSummary> getAttaractions(double longitude, double latitude) {
         return dataSourceManager.getJdbcTemplate().query(
                 serviceDiscioveryQuery,
-                new Object[]{latitude + 0.0001, latitude - 0.0001, longitude + 0.0001, longitude - 0.0001},
+                new Object[]{latitude + 2, latitude - 2, longitude + 2, longitude - 2},
                 new int[]{Types.DOUBLE, Types.DOUBLE, Types.DOUBLE, Types.DOUBLE},
                 (rs, rowNum) -> new AttaractionSummary(
                         rs.getInt("svc_id"),
                         rs.getString("title"),
                         rs.getString("description"),
                         new LocationBean(rs.getDouble("lng"), rs.getDouble("lat")),
-                        rs.getDouble("svc_fee")
+                        rs.getDouble("svc_fee"),
+                        rs.getString("title_ph")
                 )
         );
     }

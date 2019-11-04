@@ -1,26 +1,21 @@
 package com.cyntex.TourismApp.Logic;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-
-import com.cyntex.TourismApp.Beans.AddTouristServiceRequestBean;
-import com.cyntex.TourismApp.Beans.AddTouristServiceResponseBean;
-import com.cyntex.TourismApp.Beans.BaseResponse;
-import com.cyntex.TourismApp.Beans.GetTouristServiceQueryResponseBean;
-import com.cyntex.TourismApp.Beans.GetTouristServiceResponseBean;
+import com.cyntex.TourismApp.Beans.*;
 import com.cyntex.TourismApp.Exception.BadRequestException;
 import com.cyntex.TourismApp.Exception.PermissionDeniedException;
 import com.cyntex.TourismApp.Persistance.TouristServiceDAO;
 import com.cyntex.TourismApp.Persistance.TouristServicePhotoCollectionDAO;
 import com.cyntex.TourismApp.Persistance.UserDAO;
 import com.cyntex.TourismApp.Util.FSManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 
 @Component
@@ -113,6 +108,39 @@ public class TouristServiceHandler {
 
 		return queryResponseList;
 		
+	}
+
+	@Transactional(rollbackFor = Exception.class, timeout = 120)
+	public void addServiceComment(ServiceRatingCommentBean rating) throws Exception {
+		String imageID = UUID.randomUUID().toString();
+		FSManager.saveImage(imageID, rating.getPhoto());
+		touristServiceDAO.addServiceRatingComment(rating.getUserId(), rating.getServiceId(), rating.getRating(),
+												  rating.getComment(), imageID);
+	}
+
+	@Transactional(rollbackFor = Exception.class, timeout = 120)
+	public TouristServiceCommentsResponse getAllServiceComments(int serviceId) throws Exception {
+		TouristServiceCommentsResponse baseResponse = new TouristServiceCommentsResponse();
+		List<ServiceRatingUserMappedCommentBean> comments = touristServiceDAO.getAllTouristServiceComments(serviceId);
+		List<ServiceRatingCommentBean> returnComments = new ArrayList<>();
+		double totalRating = 0;
+		for (ServiceRatingUserMappedCommentBean commentBean : comments) {
+			List<UserBean> userBeans = userDAO.getUserProfile(commentBean.getUserId());
+			if (!userBeans.isEmpty()) {
+				UserBean userBean = userBeans.get(0);
+				commentBean.setUserPictureID(userBean.getImageID());
+				commentBean.setUserFullName(userBean.getFirstName() + " " + userBean.getLastName());
+				commentBean.setCountry(userBean.getCountry());
+				totalRating += commentBean.getRating();
+				returnComments.add(commentBean);
+			}
+
+		}
+		baseResponse.setComments(returnComments);
+		if (!returnComments.isEmpty()) {
+			baseResponse.setAvgRating(Math.round((totalRating / returnComments.size()) * 100) / 100.0);
+		}
+		return baseResponse;
 	}
 
 }
