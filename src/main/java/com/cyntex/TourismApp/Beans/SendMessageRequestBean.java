@@ -9,39 +9,22 @@ public class SendMessageRequestBean {
 	private String username;
 	private int groupId;
 	private String message;
-	private String firstname;
+//	private String firstname;
 //	private Date createdDate;// this will be suppled by us when message save
 	
 	
-//	public Date getCreatedDate() {
-//		return createdDate;
-//	}
-//	public void setCreatedDate(Date createdDate) {
-//		this.createdDate = createdDate;
-//	}
-//	public int getMessageId() {
-//		return messageId;
-//	}
-//	public void setMessageId(int messageId) {
-//		this.messageId = messageId;
-//	}
-//	public int getUserId() {
-//		return userId;
-//	}
-//	public void setUserId(int userId) {
-//		this.userId = userId;
-//	}
+
 	
 	
 	public int getGroupId() {
 		return groupId;
 	}
-	public String getFirstname() {
-		return firstname;
-	}
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
+//	public String getFirstname() {
+//		return firstname;
+//	}
+//	public void setFirstname(String firstname) {
+//		this.firstname = firstname;
+//	}
 	public String getUsername() {
 		return username;
 	}

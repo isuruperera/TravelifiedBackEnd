@@ -1,36 +1,29 @@
 package com.cyntex.TourismApp.Beans;
 
 public class ChatUserBean {
-	private String username; //Foreign key  
-	private String firstname;
-	private String  avatar;
+	private String _id; //Foreign key  
+	private String name;
+	//private String  avatar;
+	public String get_id() {
+		return _id;
+	}
+	public void set_id(String _id) {
+		this._id = _id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public ChatUserBean(String _id, String name) {
+		super();
+		this._id = _id;
+		this.name = name;
+	}
 	
 	
 
-	public ChatUserBean(String username, String firstname, String avatar) {
-		super();
-		this.username = username;
-		this.firstname = firstname;
-		this.avatar = avatar;
-	}
-	public String getAvatar() {
-		return avatar;
-	}
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
-	public String getFirstname() {
-		return firstname;
-	}
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
 
 	
 	

@@ -37,13 +37,13 @@ public class TouristGuideServiceHandler {
 			int serviceId=contactTouristGuideSendMessageRequestBean.getServiceId();
 			String username=contactTouristGuideSendMessageRequestBean.getUsername();
 			String message=contactTouristGuideSendMessageRequestBean.getMessage();
-			String firstname=userDAO.getAuthenticatedUser(username).get(0).getFirstName();
+	//		String firstname=userDAO.getAuthenticatedUser(username).get(0).getFirstName();
 	
 			if(serviceProviderDAO.validateServiceProvider(serviceId, username)){
 			
 					
-					if(!(StringUtils.isEmpty(firstname) || StringUtils.isEmpty(username) || serviceId==0)){
-						messageTouristGuideDAO.saveMessage(serviceId,username,firstname,message);
+					if(!( StringUtils.isEmpty(username) || serviceId==0)){
+						messageTouristGuideDAO.saveMessage(serviceId,username,message);
 					}else{
 						throw new BadRequestException("FAILED :Check the payload");
 						
