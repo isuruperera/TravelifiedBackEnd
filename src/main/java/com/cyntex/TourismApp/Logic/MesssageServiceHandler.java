@@ -34,7 +34,7 @@ public class MesssageServiceHandler {
 	@Transactional(rollbackFor= Exception.class, timeout=120)
 	public void sendMessage(SendMessageRequestBean requestBean) throws Exception{
 		
-
+		System.out.println(requestBean);
 		 String username=requestBean.getUsername();
 	     int chatGroupId=requestBean.getGroupId();
 		 String message=requestBean.getMessage();
