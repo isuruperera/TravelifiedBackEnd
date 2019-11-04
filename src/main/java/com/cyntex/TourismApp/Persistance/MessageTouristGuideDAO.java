@@ -34,16 +34,16 @@ public class MessageTouristGuideDAO {
 	}
 	
 	private static final String saveMessageQuery=
-			"insert into message_details_guide(service_id,username,first_name, message ,created_date) values (?,?,?,?,?)";
+			"insert into message_details_guide(service_id,username, message ,created_date) values (?,?,?,?)";
 	private static final String getMessageDetailsQuery =
 			"select * from message_details_guide as one left join user as two on (one.username = two.username) where (one.service_id = ?  and two.username= ? ) order by one.created_date ";
 	
 	
 
-	public void saveMessage(int serviceId, String username,String firstname,  String message){
+	public void saveMessage(int serviceId, String username,String message){
 		jdbcTemplate.update(saveMessageQuery,
-                new Object[] {serviceId,username,firstname ,message, new Date()},
-                new int[]{Types.INTEGER,Types.VARCHAR,Types.VARCHAR,Types.VARCHAR,Types.DATE});
+                new Object[] {serviceId,username,message, new Date()},
+                new int[]{Types.INTEGER,Types.VARCHAR,Types.VARCHAR,Types.DATE});
 
 		
 	}
@@ -57,7 +57,7 @@ public class MessageTouristGuideDAO {
                         rs.getInt("message_id"),
                          rs.getString("message"),
                         rs.getDate("created_date"),
-                        new ChatUserBean(rs.getString("username"),rs.getString("first_name"),rs.getString("picture_link")))
+                        new ChatUserBean(rs.getString("username"),rs.getString("first_name")+" "+rs.getString("last_name")))
         );
         
 		return queryData;

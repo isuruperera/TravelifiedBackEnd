@@ -34,18 +34,18 @@ public class MesssageServiceHandler {
 	@Transactional(rollbackFor= Exception.class, timeout=120)
 	public void sendMessage(SendMessageRequestBean requestBean) throws Exception{
 		
-
+		System.out.println(requestBean);
 		 String username=requestBean.getUsername();
 	     int chatGroupId=requestBean.getGroupId();
 		 String message=requestBean.getMessage();
-		 String firstname=requestBean.getFirstname();
+	
 		 
-		 if(!(StringUtils.isEmpty(username)|| StringUtils.isEmpty(firstname) ||chatGroupId==0)){
+		 if(!(StringUtils.isEmpty(username)||chatGroupId==0)){
 	    
-			 if(groupParticipantDAO.checkExistance( chatGroupId, username) && userDAO.validate(username,firstname)){
-			    messageDAO.saveMessage(chatGroupId,username,firstname,message);
+			 if(groupParticipantDAO.checkExistance( chatGroupId, username)){
+			    messageDAO.saveMessage(chatGroupId,username,message);
 			 }else{
-				 throw new PermissionDeniedException("FAILED: user is not in the group or username and firstname are not match");
+				 throw new PermissionDeniedException("FAILED: user is not in the group");
 			 }
 		 }else{
 			 throw new BadRequestException("FAILED: Check the payload again");

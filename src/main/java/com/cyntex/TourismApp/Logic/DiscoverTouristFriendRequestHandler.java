@@ -1,11 +1,14 @@
 package com.cyntex.TourismApp.Logic;
 
+
 import com.cyntex.TourismApp.Beans.*;
+import com.cyntex.TourismApp.Beans.ProfileResponseBean;
 import com.cyntex.TourismApp.Exception.BadRequestException;
 import com.cyntex.TourismApp.Persistance.FriendListDAO;
 import com.cyntex.TourismApp.Persistance.UserDAO;
 import com.cyntex.TourismApp.Persistance.UserRatingsProfileDAO;
 import com.cyntex.TourismApp.Util.UserRatingCalculator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
@@ -48,12 +51,12 @@ public class DiscoverTouristFriendRequestHandler {
 
 			requestedUserRatingList = userRatingCalculator
 					.RatingProfileResponse(queryResponse).getUserRatings();
-				ProfileResponseBean = userRatingCalculator.RatingProfileResponse(queryResponse);
+				ProfileResponseBean = userRatingCalculator.RatingProfileResponse(queryResponse);// this won't use
 			ArrayList<String> counterBucket = new ArrayList<String>();
 			for (UserRating userRating : requestedUserRatingList) {
 
 				List<DiscoverTouristFriendRatingDetailQueryResponseBean> discoverTouristFriendQuaryResponseBeanList = userRatingsProfileDAO.getAverageRating(userRating.getCategory(),requesterUsername);
-              
+              // getting  average rating of current user 
 				for (DiscoverTouristFriendRatingDetailQueryResponseBean discoverTouristFriendRatingDetailQueryResponseBean : discoverTouristFriendQuaryResponseBeanList) {
 					double averageRating = discoverTouristFriendRatingDetailQueryResponseBean.getAverageRating();
 					String usernameOfQuaryResponseBean=discoverTouristFriendRatingDetailQueryResponseBean.getUsername();

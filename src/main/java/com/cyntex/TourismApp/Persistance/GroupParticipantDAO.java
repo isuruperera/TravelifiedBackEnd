@@ -88,7 +88,7 @@ public class GroupParticipantDAO {
 		
 		jdbcTemplate.update(addGroupCreator,
                 new Object[] {username,chatGroupId,1},
-                new int[]{Types.INTEGER,Types.INTEGER,Types.INTEGER});
+                new int[]{Types.VARCHAR,Types.INTEGER,Types.INTEGER});
                 
 		
 	}

@@ -58,6 +58,7 @@ public class TouristServiceHandler {
 				    String photoCollectionId = UUID.randomUUID().toString();
 					
 					touristServiceDAO.addTouristService(serviceTitle,serviceDescription,ownername,titlePhotoID,photoCollectionId,ratingProfileId,lng,lat);
+				
 					for(String photo : photoCollection){
 						if(!StringUtils.isEmpty(photo)){
 							String photoUrl = UUID.randomUUID().toString();

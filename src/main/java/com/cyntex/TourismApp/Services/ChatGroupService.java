@@ -1,6 +1,7 @@
 package com.cyntex.TourismApp.Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import com.cyntex.TourismApp.Beans.GetUserChatGroupRequestBean;
 import com.cyntex.TourismApp.Beans.GetUserChatGroupResponseBean;
 import com.cyntex.TourismApp.Exception.BadRequestException;
 import com.cyntex.TourismApp.Logic.ChatGroupRequestHandler;
+
 
 @Service
 
@@ -27,6 +29,9 @@ public class ChatGroupService {
 		
 		}catch(BadRequestException e){
 		   baseResponse.setStatus(e.getMessage());
+		
+		}catch(DuplicateKeyException e){
+			baseResponse.setStatus("This chat group already exists");
 		}catch(Exception e){
 			
 			baseResponse.setStatus("Transaction fails "+e.getMessage());

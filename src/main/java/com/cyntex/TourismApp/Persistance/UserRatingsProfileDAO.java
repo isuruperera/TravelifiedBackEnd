@@ -12,9 +12,11 @@ import java.util.List;
 
 @Component
 public class UserRatingsProfileDAO {
+	
     private static final String ratingsProfileFetchQuery
             = "select * from user_rating_profile where username = ?";
 
+	
     private static final String findAverageRatingValueFetchQuery
             = "select username,avg(rating) as average_rating from user_rating_profile where category = ? and username != ? group by username ";
 

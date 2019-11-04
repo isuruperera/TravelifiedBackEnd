@@ -23,7 +23,7 @@ public class TouristServiceDAO {
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
-
+	
     private static final String getTouristServicesByTitleQuery = "select * from tourist_service where service_title = ?" +
             "  and is_active = '1'";
 
@@ -35,7 +35,7 @@ public class TouristServiceDAO {
             "values(?,?,?,?,?)";
 
     private static final String getAllTouristServices = "select * from tourist_service where is_active = '1'";
-    
+  
 	private static final String addTrouristServiceQuery="insert into tourist_service(service_title,"
 			+ "service_description,"
 			+ "owner_uname,"
@@ -56,7 +56,7 @@ public class TouristServiceDAO {
 
 	public List<GetTouristServiceQueryResponseBean> getTouristServiceByTitle(String serviceTitle) throws Exception{
 		List<GetTouristServiceQueryResponseBean> queryData=jdbcTemplate.query(getTouristServicesByTitleQuery,
-                new Object[] {serviceTitle},
+                new Object[] {serviceTitle+"%"},
                 new int[]{Types.VARCHAR },  (rs, rowNum) -> new GetTouristServiceQueryResponseBean(
                 		rs.getInt("service_id"),rs.getString("service_title"),rs.getString("service_description"),
                 		rs.getString("owner_uname"),rs.getString("title_photo_url"),
